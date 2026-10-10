@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://story-to-song-1.vercel.app/sitemap.xml
