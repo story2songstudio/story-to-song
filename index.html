@@ -36,6 +36,7 @@
 <label>Email for song delivery *<input type="email" name="Email" autocomplete="email" required placeholder="you@example.com"><small>Please double-check this address—we’ll email your song here.</small></label>
 <div class="form-section-heading full"><span>2</span><h3>About the song</h3></div>
 <label>What is the song for? *<select name="Occasion" required><option value="">Choose an occasion</option><option>Wedding</option><option>Anniversary</option><option>Birthday</option><option>Memorial / Celebration of Life</option><option>New Baby</option><option>Mother's Day</option><option>Father's Day</option><option>Retirement</option><option>Kids’ Song</option><option>Holiday / Christmas</option><option>Graduation</option><option>Family</option><option>Just Because</option><option>Other</option></select></label>
+<label id="otherOccasionField" class="full">Please describe the other occasion *<input id="otherOccasion" name="Other occasion" placeholder="Example: promotion, thank-you, or a special family celebration"></label>
 <label>Who is the song about? *<input name="Song for" required placeholder="Their name(s) and your relationship"></label>
 <label>Who is the song from?<input name="Song from" placeholder="You, the kids, coworkers, or the whole family"></label>
 <label>Name pronunciation<input name="Name pronunciation" placeholder="Example: Amani = ah-MAH-nee (optional)"></label>
@@ -64,4 +65,22 @@
 </main>
 <footer><a class="brand" href="#top"><span class="note">♪</span> Story <b>to</b> Song</a><p>Personalized songs made from the stories that matter most.</p><a href="mailto:story2songstudio@gmail.com">story2songstudio@gmail.com</a><small>© 2026 Story to Song. All rights reserved.</small></footer>
 
+<script>
+(function () {
+  const occasion = document.querySelector('select[name="Occasion"]');
+  const field = document.getElementById('otherOccasionField');
+  const input = document.getElementById('otherOccasion');
+  if (!occasion || !field || !input) return;
+  function updateOtherOccasion() {
+    const isOther = occasion.value === 'Other';
+    field.hidden = !isOther;
+    field.style.display = isOther ? '' : 'none';
+    input.disabled = !isOther;
+    input.required = isOther;
+  }
+  occasion.addEventListener('change', updateOtherOccasion);
+  window.addEventListener('pageshow', updateOtherOccasion);
+  updateOtherOccasion();
+})();
+</script>
 </body></html>
