@@ -30,14 +30,20 @@
 <input type="hidden" name="_template" value="table">
 <input type="hidden" name="_next" value="https://buy.stripe.com/eVq14ogvYcQDfvC8E753O01">
 <input type="text" name="_honey" style="display:none">
-<label>Your name<input name="Name" required placeholder="Your name"></label>
-<label>Your email<input type="email" name="Email" required placeholder="you@example.com"></label>
-<label>What is the song for?<select name="Occasion" required><option value="">Choose an occasion</option><option>Wedding</option><option>Anniversary</option><option>Birthday</option><option>Memorial / Celebration of Life</option><option>New Baby</option><option>Mother's Day / Father's Day</option><option>Family</option><option>Just Because</option><option>Other</option></select></label>
-<label>Who is the song about?<input name="Song for" placeholder="Name(s) and relationship"></label>
+<div class="full form-note">Fields marked * are required. A few meaningful details are enough to start—the more you share, the more personal your song can be. Please share only information you want us to use to create your song.</div>
+<label>Your name *<input name="Name" autocomplete="name" required placeholder="Your name"></label>
+<label>Email for song delivery *<input type="email" name="Email" autocomplete="email" required placeholder="you@example.com"><small>Please double-check this address—we’ll email your song here.</small></label>
+<label>What is the song for? *<select name="Occasion" required><option value="">Choose an occasion</option><option>Wedding</option><option>Anniversary</option><option>Birthday</option><option>Memorial / Celebration of Life</option><option>New Baby</option><option>Mother's Day</option><option>Father's Day</option><option>Retirement</option><option>Kids’ Song</option><option>Holiday / Christmas</option><option>Graduation</option><option>Family</option><option>Just Because</option><option>Other</option></select></label>
+<label>Who is the song about? *<input name="Song for" required placeholder="Their name(s) and your relationship"></label>
+<label>Who is the song from?<input name="Song from" placeholder="You, the kids, coworkers, or the whole family"></label>
+<label>Name pronunciation<input name="Name pronunciation" placeholder="Example: Amani = ah-MAH-nee (optional)"></label>
 <label>Music style<select name="Music style"><option>Surprise me</option><option>Country</option><option>Pop</option><option>Acoustic / Singer-songwriter</option><option>Rock</option><option>R&B / Soul</option><option>Christian / Inspirational</option><option>Folk</option><option>Other</option></select></label>
 <label>Song mood<select name="Mood"><option>Heartfelt & emotional</option><option>Happy & uplifting</option><option>Romantic</option><option>Fun & playful</option><option>Hopeful & inspirational</option><option>Gentle & reflective</option></select></label>
-<label class="full">Tell us the story<textarea name="Story" required rows="7" placeholder="How did you meet? Favorite memories? Funny moments? What makes this person special? Tell us anything you'd love to hear in the song..."></textarea></label>
-<label class="full">Must-include details<textarea name="Must include" rows="4" placeholder="Names, dates, places, sayings, nicknames, special moments or phrases..."></textarea></label>
+<label class="full">Tell us their story *<textarea name="Story" required rows="7" placeholder="What makes them special? Share 2–3 memories, their personality, favorite hobbies, or funny moments. For a couple: how did they meet? For a child: what do they love? For a tribute: what would you like to remember?"></textarea><small>A list is fine—you don’t need to write lyrics or a polished story.</small></label>
+<label class="full">Must-include details<textarea name="Must include" rows="4" placeholder="The most important names, nicknames, dates, places, inside jokes, or phrases. Tell us which details matter most."></textarea></label>
+<label class="full">What message should the song express?<textarea name="Main message" rows="3" placeholder="Example: Thank you for always being there, happy birthday, or I still choose you every day (optional)."></textarea></label>
+<label class="full">Anything to avoid?<textarea name="Topics to avoid" rows="3" placeholder="Names, jokes, sensitive memories, or religious language you want left out (optional)."></textarea></label>
+<label class="full">Other music or style requests<input name="Other style requests" placeholder="If you chose Other, describe the sound or feeling you have in mind (optional)."></label>
 <label>Preferred voice<select name="Voice"><option>No preference</option><option>Male</option><option>Female</option></select></label>
 <label>How emotional?<select name="Emotion"><option>Balanced</option><option>Make me cry</option><option>Keep it light</option></select></label>
 <div class="full form-note">Submit your story first. After it is sent securely to <b>story2songstudio@gmail.com</b>, you’ll continue to Stripe to complete the <b>$29.99</b> payment.<br><br>✓ Secure payment through Stripe &nbsp; • &nbsp; ✓ Delivered within 24 hours after payment and story submission &nbsp; • &nbsp; ✓ 1 change included within 5 days of receiving your song</div>
