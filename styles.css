@@ -15,3 +15,22 @@
 .form textarea{resize:vertical}
 .form :is(input,select,textarea){font-size:16px}
 @media(max-width:820px){.price-card{text-align:left;max-width:520px;margin:24px auto}.form{gap:22px}.form-section-heading{scroll-margin-top:90px}}
+
+/* Homepage sample and easier occasion browsing */
+.sample-preview{padding:48px 24px;text-align:center;background:#fff5fa}
+.sample-preview h2{font-family:'Playfair Display',serif;font-size:clamp(25px,4vw,36px);margin:10px 0}
+.sample-preview p{color:#625d6d;line-height:1.6}
+.sample-preview audio{display:block;width:100%;max-width:600px;margin:22px auto}
+.sample-preview a{color:var(--purple);font-weight:700}
+.occasion-cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.occasion-cards span{padding:0;border-radius:18px;text-align:center}
+.occasion-cards span>a{display:flex;align-items:center;justify-content:center;min-height:76px;padding:18px;text-decoration:none!important;border-radius:18px}
+.occasion-cards span:not(:has(a)){padding:22px 18px;display:flex;align-items:center;justify-content:center}
+.occasion-cards a:hover{background:#fff0f5}
+.occasion-cards a:focus-visible,.optional-details summary:focus-visible{outline:3px solid var(--purple);outline-offset:3px}
+.optional-details{background:#faf5f8;border:1px solid #eee2eb;border-radius:16px;padding:18px}
+.optional-details summary{font-size:15px;font-weight:700;cursor:pointer;line-height:1.5;min-height:30px}
+.optional-details>p{font-size:13px;color:#746e78;line-height:1.6}
+.optional-fields{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:820px){.optional-fields{grid-template-columns:1fr}.optional-fields label{grid-column:1}}
+@media(max-width:470px){.occasion-cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.occasion-cards span>a{min-height:86px;padding:14px;font-size:14px}.sample-preview{padding:38px 20px}}
