@@ -24,19 +24,19 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ success: false, message: 'Please complete the required fields and email address.' });
   }
   const allowed = ['Name', 'Email', 'Occasion', 'Other occasion', 'Song for', 'Song from', 'Name pronunciation', 'Music style', 'Mood', 'Story', 'Must include', 'Main message', 'Topics to avoid', 'Other style requests', 'Voice', 'Emotion'];
-  const payload = { _subject: 'New Story to Song Request', _template: 'table' };
+  const payload = { _subject: 'New Story to Song Request', email: data.Email };
   for (const key of allowed) if (typeof data[key] === 'string') payload[key] = data[key];
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 20000);
   try {
-    const upstream = await fetch('https://formsubmit.co/ajax/story2songstudio@gmail.com', {
+    const upstream = await fetch('https://formspree.io/f/myekqjep', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify(payload),
       signal: controller.signal
     });
     const result = await upstream.json();
-    if (!upstream.ok || (result.success !== true && result.success !== 'true')) {
+    if (!upstream.ok || result.ok === false || result.errors) {
       return res.status(502).json({ success: false, message: 'The story service did not confirm delivery. Your details are still on this page.' });
     }
     return res.status(200).json({ success: true });
