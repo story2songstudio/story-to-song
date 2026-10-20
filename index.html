@@ -28,7 +28,7 @@
 <form id="songForm" class="form" action="https://formsubmit.co/story2songstudio@gmail.com" method="POST"> 
 <input type="hidden" name="_subject" value="New Story to Song Request">
 <input type="hidden" name="_template" value="table">
-<input type="hidden" name="_next" value="https://buy.stripe.com/eVq14ogvYcQDfvC8E753O01">
+<input type="hidden" name="_next" value="https://buy.stripe.com/bJefZi2F82bZdnucUn53O03">
 <input type="text" name="_honey" style="display:none">
 <div class="full form-note">Fields marked * are required. A few meaningful details are enough to start—the more you share, the more personal your song can be. Please share only information you want us to use to create your song.</div>
 <div class="form-section-heading full"><span>1</span><h3>About you</h3></div>
@@ -51,8 +51,16 @@
 <label>Preferred voice<select name="Voice"><option>No preference</option><option>Male</option><option>Female</option></select></label>
 <label>How emotional?<select name="Emotion"><option>Balanced</option><option>Make me cry</option><option>Keep it light</option></select></label>
 </div></details>
-<div class="full form-note">Submit your story first. After it is sent securely to <b>story2songstudio@gmail.com</b>, you’ll continue to Stripe to complete the <b>$24.99</b> payment.<br><br>✓ Secure payment through Stripe &nbsp; • &nbsp; ✓ Delivered within 24 hours after payment and story submission &nbsp; • &nbsp; ✓ 1 change included within 5 days of receiving your song</div>
+<div class="full form-note">Submit your story first, then continue to Stripe to complete the <b>$24.99</b> payment. Use the same email address at checkout so we can match your payment to your story. If sending fails, you can email your story to <b>story2songstudio@gmail.com</b> using the options below.<br><br>✓ Secure payment through Stripe &nbsp; • &nbsp; ✓ Delivered within 24 hours after payment and story submission &nbsp; • &nbsp; ✓ 1 change included within 5 days of receiving your song</div>
 <button class="pill submit" type="submit">Send My Story & Continue to Payment →</button>
+<p id="orderStatus" class="full form-note" role="status" aria-live="polite"></p>
+<div id="orderFallback" class="full form-note" hidden>
+<p>If sending keeps failing, email your story to <b>story2songstudio@gmail.com</b>. If an email does not open or include the full story, copy the text below and paste it into your email.</p>
+<p><a id="emailStory" href="mailto:story2songstudio@gmail.com">Open email with my story</a></p>
+<button id="copyStory" type="button">Copy my story</button>
+<label>Your story for email<textarea id="storyCopy" readonly rows="8"></textarea></label>
+<p>After you send the email, <a href="https://buy.stripe.com/bJefZi2F82bZdnucUn53O03">continue to secure payment — $24.99</a>. Use the same email address at checkout so we can match your payment to your story. Please pay only once.</p>
+</div>
 </form></section>
 <section id="faq" class="section"><div class="section-head"><div class="eyebrow">A LITTLE MORE INFORMATION</div><h2>Frequently asked questions</h2><p>Everything you need to know before we turn your story into a song.</p></div><div style="max-width:900px;margin:auto"><details style="background:#faf5f8;border-radius:16px;padding:20px;margin-bottom:14px"><summary style="cursor:pointer;font-weight:700;line-height:1.5">How much does a personalized song cost?</summary><p style="line-height:1.7;color:#625d6d;margin-bottom:0">For a limited time, a personalized song costs $24.99. One change is included when requested within 5 days of receiving your song.</p></details>
 <details style="background:#faf5f8;border-radius:16px;padding:20px;margin-bottom:14px"><summary style="cursor:pointer;font-weight:700;line-height:1.5">How long does it take to receive my song?</summary><p style="line-height:1.7;color:#625d6d;margin-bottom:0">You’ll receive your personalized song by email within 24 hours after payment and submission of your story.</p></details>
@@ -82,6 +90,77 @@
   occasion.addEventListener('change', updateOtherOccasion);
   window.addEventListener('pageshow', updateOtherOccasion);
   updateOtherOccasion();
+})();
+</script>
+<script>
+
+(function () {
+  const form = document.getElementById('songForm');
+  const button = form.querySelector('button[type="submit"]');
+  const status = document.getElementById('orderStatus');
+  const fallback = document.getElementById('orderFallback');
+  const emailLink = document.getElementById('emailStory');
+  const copyButton = document.getElementById('copyStory');
+  const storyCopy = document.getElementById('storyCopy');
+  const checkout = 'https://buy.stripe.com/bJefZi2F82bZdnucUn53O03';
+  let sending = false;
+  copyButton.addEventListener('click', async function () {
+    try {
+      await navigator.clipboard.writeText(storyCopy.value);
+      status.textContent = 'Story copied. Paste it into an email to story2songstudio@gmail.com.';
+    } catch (_) {
+      storyCopy.focus();
+      storyCopy.select();
+      status.textContent = 'Select and copy the story below, then email it to story2songstudio@gmail.com.';
+    }
+  });
+  form.addEventListener('submit', async function (event) {
+    event.preventDefault();
+    if (sending || !form.reportValidity()) return;
+    const data = new FormData(form);
+    if (data.get('_honey')) return;
+    const lines = [];
+    const payload = {};
+    for (const [name, value] of data.entries()) {
+      if (name.startsWith('_')) continue;
+      payload[name] = value;
+      lines.push(name + ': ' + value);
+    }
+    payload._subject = 'New Story to Song Request';
+    payload._template = 'table';
+    const story = lines.join('\n\n');
+    storyCopy.value = story;
+    emailLink.href = 'mailto:story2songstudio@gmail.com?subject=' +
+      encodeURIComponent('Story to Song order') + '&body=' + encodeURIComponent(story);
+    fallback.hidden = true;
+    sending = true;
+    button.disabled = true;
+    button.textContent = 'Sending your story…';
+    status.textContent = 'Sending your story. Please wait…';
+    const controller = new AbortController();
+    const timeout = setTimeout(function () { controller.abort(); }, 15000);
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/story2songstudio@gmail.com', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal
+      });
+      if (!response.ok) throw new Error('Submission failed');
+      const result = await response.json();
+      if (result.success !== true && result.success !== 'true') throw new Error('Submission not confirmed');
+      status.textContent = 'Your story was submitted. Opening secure payment…';
+      window.location.assign(checkout);
+    } catch (_) {
+      status.textContent = 'We could not confirm that your story was sent. Your details are still here. Try again, or email your story using the options below before paying.';
+      fallback.hidden = false;
+    } finally {
+      clearTimeout(timeout);
+      sending = false;
+      button.disabled = false;
+      button.textContent = 'Send My Story & Continue to Payment →';
+    }
+  });
 })();
 </script>
 </body></html>
