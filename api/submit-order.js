@@ -23,6 +23,10 @@ module.exports = async function handler(req, res) {
       !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.Email)) {
     return res.status(400).json({ success: false, message: 'Please complete the required fields and email address.' });
   }
+  if (data.Occasion.trim() === 'Other' &&
+      (typeof data['Other occasion'] !== 'string' || !data['Other occasion'].trim())) {
+    return res.status(400).json({ success: false, message: 'Please describe the other occasion.' });
+  }
   const allowed = ['Name', 'Email', 'Occasion', 'Other occasion', 'Song for', 'Song from', 'Name pronunciation', 'Music style', 'Mood', 'Story', 'Must include', 'Main message', 'Topics to avoid', 'Other style requests', 'Voice', 'Emotion'];
   const payload = { _subject: 'New Story to Song Request', email: data.Email };
   for (const key of allowed) if (typeof data[key] === 'string') payload[key] = data[key];
