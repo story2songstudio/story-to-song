@@ -100,7 +100,7 @@
   const emailLink = document.getElementById('emailStory');
   const copyButton = document.getElementById('copyStory');
   const storyCopy = document.getElementById('storyCopy');
-  const checkout = 'https://buy.stripe.com/bJefZi2F82bZdnucUn53O03';
+  const thankYou = '/thank-you.html';
   let sending = false;
   copyButton.addEventListener('click', async function () {
     try {
@@ -150,8 +150,8 @@
       let result;
       try { result = await response.json(); } catch (_) { throw new Error('Invalid confirmation'); }
       if (result.success !== true && result.success !== 'true') throw new Error('Submission not confirmed');
-      status.textContent = 'Your story was submitted. Opening secure payment…';
-      window.location.assign(checkout);
+      status.textContent = 'Your story was submitted. Opening the next step…';
+      window.location.assign(thankYou);
     } catch (error) {
       const reason = error.name === 'AbortError' ? 'Confirmation timed out' : error instanceof TypeError ? 'Connection interrupted' : error.message;
       status.textContent = reason + '. ' + 'We could not confirm that your story was sent. Your details are still here. Try again, or email your story using the options below before paying.';
